@@ -1,22 +1,14 @@
 "use client";
-
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { auth, signOut } from "@/lib/auth";
+import { signOut } from "@/lib/auth";
 import Navbar from "@/components/Navbar";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-  const [user, setUser] = useState(null);
+  const { data: session, status } = useSession();
   const router = useRouter();
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const session = await auth();
-      setUser(session?.user || null);
-    };
-    
-    checkAuth();
-  }, []);
+  const isLoading = status === "loading";
+  const user = session?.user || null;
 
   return (
     <main className="flex min-h-screen flex-col items-center p-8">
@@ -25,7 +17,11 @@ export default function Home() {
       <div className="max-w-4xl w-full mt-16 text-center">
         <h1 className="text-4xl font-bold mb-6">OAuth GitHub Nextjs</h1>
         
-        {user ? (
+        {isLoading ? (
+          <div className="bg-gray-100 p-6 rounded-lg mb-8">
+            <p>Loading...</p>
+          </div>
+        ) : user ? (
           <div className="bg-green-100 p-6 rounded-lg mb-8">
             <h2 className="text-2xl font-semibold mb-4">Welcome, {user.name}!</h2>
             <p className="mb-4">You are successfully authenticated via GitHub OAuth.</p>
