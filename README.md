@@ -61,7 +61,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 
 ## Authentication Configuration (lib/auth.js)
 
-The `lib/auth.js` file configures the authentication system using NextAuth.js:
+The `lib/auth.js` file configures the authentication system using the `next-auth` package (v4), which provides a complete authentication solution for Next.js applications:
 
 ### Code Overview
 
@@ -141,8 +141,8 @@ To add Google authentication, follow these steps:
 1. Create OAuth credentials in the Google Cloud Console
 2. Add the following environment variables to `.env.local`:
    ```
-   GOOGLE__CLIENT_ID=your_google_client_id
-   GOOGLE_CLIENT_SECRET=your_google_client_secret
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE__CLIENT_SECRET=your_google_client_secret
    ```
 3. Import the Google provider in `lib/auth.js`:
    ```javascript
@@ -156,7 +156,7 @@ To add Google authentication, follow these steps:
        clientSecret: process.env.GITHUB_CLIENT_SECRET,
      }),
      Google({
-       clientId: process.env.GOOGLE_CLIENT_ID,
+       clientId: process.env.GOOGLE__CLIENT_ID,
        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
      }),
      Credentials({
@@ -180,12 +180,21 @@ To add Google authentication, follow these steps:
 - **auth**: NextAuth configuration object
 - **signIn/signOut**: Helper functions for authentication actions
 
+### Installation
+
+To install and set up `next-auth` in your project:
+
+```bash
+npm install next-auth
+```
+
 ### Additional Customization Options
 
-- Implement a real database connection for the Credentials provider
+- Implement a real database connection for the Credentials provider using `next-auth/adapters`
 - Add more OAuth providers like Facebook, Twitter, or Apple
 - Extend the JWT and session callbacks with additional user permissions
 - Configure custom sign-in/sign-out pages and error pages
+- Set up database persistence with Prisma, MongoDB, or other supported databases
 
 ## Authentication Flow
 
@@ -198,8 +207,21 @@ To add Google authentication, follow these steps:
 
 Deploy on [Vercel](https://vercel.com/new) and add your environment variables in the Vercel project settings.
 
+## Dependencies
+
+This project relies on the following key packages:
+
+- **next**: The React framework
+- **next-auth**: Complete authentication solution for Next.js applications (v4)
+  - Supports multiple authentication providers
+  - Handles sessions and JWT tokens
+  - Provides React hooks and helpers for client-side authentication
+- **react** and **react-dom**: Core React libraries
+- **tailwindcss**: Utility-first CSS framework
+
 ## Learn More
 
 - [Next.js Documentation](https://nextjs.org/docs)
 - [NextAuth.js Documentation](https://next-auth.js.org)
 - [GitHub OAuth Documentation](https://docs.github.com/en/developers/apps/building-oauth-apps)
+- [Google OAuth Documentation](https://developers.google.com/identity/protocols/oauth2)
