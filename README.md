@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js GitHub OAuth Application
+
+A simple Next.js application with GitHub OAuth authentication.
+
+## Features
+
+- GitHub login authentication
+- Email/password login option
+- Protected profile page
+- Responsive UI with Tailwind CSS
+
+## Setup GitHub OAuth
+
+1. Create a GitHub OAuth app at GitHub → Settings → Developer settings → OAuth Apps
+2. Set Homepage URL: `http://localhost:3000`
+3. Set Authorization callback URL: `http://localhost:3000/api/auth/callback/github`
+4. Copy your Client ID and Client Secret
+
+## Environment Setup
+
+Create a `.env.local` file with:
+
+```
+GITHUB_ID=your_github_client_id
+GITHUB_SECRET=your_github_client_secret
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_random_secret_key
+```
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and run the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+/app
+  /api
+  /login
+  /profile
+  favicon.ico
+  globals.css
+  layout.js
+  page.js
+/components
+  /ui
+  AuthProvider.jsx
+  login-form.jsx
+  Navbar.jsx
+/lib
+  auth.js
+  utils.js
+```
+
+## Authentication Flow
+
+1. User clicks "Login with GitHub" on the login page
+2. After GitHub authorization, user is redirected to their profile page
+3. Authentication state is managed by AuthProvider.jsx
+4. Protected routes check session status before rendering
+
+## Deployment
+
+Deploy on [Vercel](https://vercel.com/new) and add your environment variables in the Vercel project settings.
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [NextAuth.js Documentation](https://next-auth.js.org)
+- [GitHub OAuth Documentation](https://docs.github.com/en/developers/apps/building-oauth-apps)
