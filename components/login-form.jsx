@@ -1,3 +1,5 @@
+"use client"
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -9,11 +11,27 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useEffect } from "react"
+import { signIn } from "@/lib/auth"
 
 export function LoginForm({
   className,
   ...props
 }) {
+
+  const [isLoading, setIsLoading] = useEffect()
+
+  const handleGitHubLogin = async () => {
+      setIsLoading(true);
+
+      try {
+        await signIn('github', {callbackUrl: '/profile' } );
+      } catch (error) {
+        console.log('AUthentication error:', error);
+      } finally {
+        setIsLoading(false);
+      }
+  }
   return (
     (<div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -45,8 +63,8 @@ export function LoginForm({
                 <Button type="submit" className="w-full">
                   Login
                 </Button>
-                <Button variant="outline" className="w-full">
-                  Login with Google
+                <Button onClick={handleGitHubLogin} variant="outline" className="w-full">
+                  Login with Github
                 </Button>
               </div>
             </div>
