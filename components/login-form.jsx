@@ -13,33 +13,25 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { signIn, auth } from "@/lib/auth"
+import { signIn } from "@/lib/auth"
+import { useSession } from "next-auth/react"
 
-export function LoginForm({
+export default function LoginForm({
   className,
   ...props
 }) {
-  // Correction: useState au lieu de useEffect pour gérer l'état de chargement
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [user, setUser] = useState(null)
   const router = useRouter()
-
-  // Vérification utilisateur connecter
+  const { data: session, status } = useSession()
+  
+  // Vérification utilisateur connecté
   useEffect(() => {
-    const checkAuth = async () => {
-      const session = await auth()
-      setUser(session?.user || null)
-      
-      // Redirection si déja connecter
-      if (session?.user) {
-        router.push('/profile')
-      }
+    if (session?.user) {
+      router.push('/profile')
     }
-    
-    checkAuth()
-  }, [router])
+  }, [session, router])
 
   // Fonction pour se connecter avec GitHub
   const handleGitHubLogin = async (e) => {
@@ -73,8 +65,12 @@ export function LoginForm({
     }
   }
 
-  // redirection si connecter
-  if (user) {
+  // Redirection si connecté
+  if (status === "loading") {
+    return <div className="p-8 text-center">Chargement...</div>
+  }
+  
+  if (session?.user) {
     return <div className="p-8 text-center">Redirection vers votre profil...</div>
   }
 
