@@ -21,8 +21,8 @@ A simple Next.js application with GitHub OAuth authentication.
 Create a `.env.local` file with:
 
 ```
-GITHUB_ID=your_github_client_id
-GITHUB_SECRET=your_github_client_secret
+GITHUB__CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your_random_secret_key
 ```
